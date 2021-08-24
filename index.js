@@ -1,4 +1,4 @@
-console.log(process.argv);
+// console.log(process.argv);
 const { program } = require("commander");
 const contacts = require("./contacts.js");
 

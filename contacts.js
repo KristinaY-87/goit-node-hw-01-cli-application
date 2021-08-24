@@ -1,6 +1,5 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { v4 } = require('uuid');
  
 const contactsPath = path.join(__dirname, "db/contacts.json");
 
@@ -39,14 +38,13 @@ async function removeContact(contactId) {
     if (idx === -1) {
       throw new Error(`Contact with id=${contactId} not found`);
     }
-    const newContacts = contacts.filter(item => item.id !== Number(contactId))
-    // const delContact = contacts.splice(idx, 1);
-    const contactsString = JSON.stringify(newContacts);
+    const delContact = contacts.splice(idx, 1);
+    const contactsString = JSON.stringify(contacts);
     await fs.writeFile(contactsPath, contactsString);
 
-    // console.table(newContacts);
+    console.table(delContact);
 
-    return contacts[idx]
+    return delContact
   }
     catch (error) {
         throw error;
@@ -55,14 +53,17 @@ async function removeContact(contactId) {
 
 async function addContact(name, email, phone) {
   try {
-    const data = {name, email, phone}
-    const newContact = { ...data, id: v4() };
+    const data = { name, email, phone };
     const contacts = await listContacts();
-    const newContacts = [...contacts, newContact]
-    //contacts.push(newContact);
-    const contactsString = JSON.stringify(newContacts);
+     function getNextUniqId(arr) {
+      return Math.max(...arr.map((contact) => contact.id)) + 1
+    }
+    const newContact = {id: getNextUniqId(contacts), ...data};
+    contacts.push(newContact);
+    const contactsString = JSON.stringify(contacts);
     await fs.writeFile(contactsPath, contactsString);
-    // console.table(newContact);
+ 
+    console.table(contacts);
     return newContact;
   }
   catch (error) {
