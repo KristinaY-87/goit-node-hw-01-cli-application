@@ -15,9 +15,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/KristinaY-87/goit-node-hw-01-cli-application/issues"
-  },
   "homepage": "https://github.com/KristinaY-87/goit-node-hw-01-cli-application#readme",
   "devDependencies": {
     "nodemon": "^2.0.12"
